@@ -7,13 +7,13 @@ function MyApp() {
   const [characters, setCharacters] = useState([
     
 ]);
-  function removeOneCharacter (index) {
+  function removeOneCharacter (index,id) {
+   
     const updated = characters.filter((character, i) => {
-        if(i==index){
-          const id = characters[i].id;
-        }
         return i !== index
       });
+
+      console.log("getting to makeDeleteCall");
       makeDeleteCall(id).then( result => {
         if (result && result.status === 204)
           setCharacters(updated);
@@ -21,6 +21,13 @@ function MyApp() {
         });
       
   }
+  useEffect(() => {
+    fetchAll().then( result => {
+       if (result)
+          setCharacters(result);
+     });
+  }, [] );
+  
   return (
     
       <div className="container">
@@ -56,7 +63,8 @@ function MyApp() {
 }
 async function makeDeleteCall(id){
   try {
-     const response = await axios.delete('http://localhost:5000/users'+id);
+     
+     const response = await axios.delete('http://localhost:5000/users/'+id);
      return response;
   }
   
@@ -69,17 +77,10 @@ async function makeDeleteCall(id){
 function updateList(person) { 
   makePostCall(person).then( result => {
   if (result && result.status === 201)
-    person=response.
+     person=result.data;
      setCharacters([...characters, person] );
-
   });
 }
- useEffect(() => {
-  fetchAll().then( result => {
-     if (result)
-        setCharacters(result);
-   });
-}, [] );
-}
 
+}
 export default MyApp;

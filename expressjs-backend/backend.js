@@ -76,7 +76,7 @@ function addUser(user){
 }
 app.post('/users', (req, res) => {
    const userToAdd = req.body;
-   userToAdd.id = Math.random();
+   userToAdd.id = Math.floor(Math.random()*100);
    addUser(userToAdd);
    res.status(201).send(userToAdd);
 });
