@@ -76,8 +76,9 @@ function addUser(user){
 }
 app.post('/users', (req, res) => {
    const userToAdd = req.body;
+   userToAdd.id = Math.random();
    addUser(userToAdd);
-   res.status(200).end();
+   res.status(201).send(userToAdd);
 });
 app.delete('/users/:id', (req, res) => {
    const id = req.params['id']; //or req.params.id
@@ -86,7 +87,8 @@ app.delete('/users/:id', (req, res) => {
        res.status(404).send('Resource not found.');
    else {
       delUserById(id);
-      res.send(users);
+      res.status(204).send(users);
+
    }
 });
 function findUserById(id) {
